@@ -1,0 +1,32 @@
+
+<%= link_to "Back", posts_path, class: "btn btn-secondary" %>
+
+<h1 class="display-4"><%= @post.title %></h1>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text"><%= @post.body %></p>
+        <p class="card-text"><%= user_signed_in? ? "Posted by #{@post.user.username}" : "Sign in to see who posted!" %></p>
+    </div>
+</div>
+
+<h2 class="mt-4">Comments</h2>
+
+<%= form_with(model: PostComment.new, url: post_post_comments_path(@post), class: "mt-4") do |form| %>
+    <div class="form-group">
+        <%= form.label :comment %>
+        <%= form.text_area :comment, class: "form-control" %>
+    </div>
+
+    <%= form.submit "Add Comment", class: "btn btn-primary" %>
+<% end %>
+
+<% @post.post_comments.each do |comment| %>
+    <div class="card mt-3">
+        <div class="card-body">
+            <p class="card-text"><%= comment.comment %></p>
+            <p class="card-text"><%= user_signed_in? ? "Commented by #{comment.user.username}" : "Sign in to see who commented!" %></p>
+        </div>
+    </div>
+<% end %>
+

@@ -1,35 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MembersOnlyRails</title>
+    <title>Members Only!</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" %>
   </head>
 
   <body>
     <header>
-      <nav>
-        <ul>
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Members Only", members_only_path %></li>
-          <li><%= link_to "Sign Up", new_user_registration_path unless user_signed_in? %></li>
-          <li><%= link_to "Sign In", new_user_session_path unless user_signed_in? %></li>
-          <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete if user_signed_in? %></li>
-        </ul>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <%= link_to "Members Only!", root_path, class: "navbar-brand" %>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <%= link_to "Home", root_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" unless user_signed_in? %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign In", new_user_session_path, class: "nav-link" unless user_signed_in? %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "nav-link", data: { turbo_method: :delete } if user_signed_in? %>
+              </li>
+            </ul>
+          </div>
+        </div>
       </nav>
     </header>
 
-    <div class="content">
+    <% flash.each do |key, message| %>
+      <div class="flash <%= key %>"><%= message %></div>
+    <% end %>
+
+    <div class="container mt-4">
       <%= yield %>
     </div>
 
-    <footer>
-      <p>&copy; <%= Time.now.year %> Members-Only Rails | Created by CyberRacc</p>
+    <footer class="mt-4">
+      <div class="container">
+        <p>&copy; <%= Time.now.year %> Members-Only Rails | Created by CyberRacc</p>
+      </div>
     </footer>
-  </body>
 
+    <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" %>
+  </body>
 </html>

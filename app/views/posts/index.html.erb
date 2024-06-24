@@ -1,0 +1,13 @@
+<h1>Posts</h1>
+
+<%= link_to "Create Post", new_post_path, class: "btn btn-primary" %>
+
+<div class="forum-thread">
+  <% @posts.each do |post| %>
+    <div class="post">
+      <h2><%= link_to post.title, post_path(post) %></h2>
+      <p><%= user_signed_in? ? post.user.username : "Sign in to see who posted!" %></p>
+      <p><%= formatted_timestamp(post.updated_at > post.created_at ? post.updated_at : post.created_at) %></p>
+    </div>
+  <% end %>
+</div>
